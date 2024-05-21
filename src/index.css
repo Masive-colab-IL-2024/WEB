@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-scrollbar::-webkit-scrollbar {
+    height: 8px; /* Adjust the height of the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #FF6868; /* Change the color of the scrollbar thumb */
+    border-radius: 10px; /* Add border radius for rounded corners */
+    border: 2px solid #f1f1f1; /* Add a border around the thumb for better visibility */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #e04d4d; 
+}
