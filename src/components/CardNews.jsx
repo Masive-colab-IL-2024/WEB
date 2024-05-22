@@ -10,10 +10,12 @@ import Content from '../assets/content.jpg';
 export function CardNews({title, count}) {
   return (
     <>
+    {title ? (
      <Typography className="text-3xl font-bold text-center pt-5 relative">
         {title}
         <span className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-20 h-1 bg-red-400"></span>
       </Typography>
+     ) : ''}
     <div className="flex flex-wrap justify-center p-3 gap-6 mt-6">
         {[...Array(count)].map((_, index) => (
         <Card key={index} className="w-96 mt-10 bg-red-400 text-white">
@@ -30,7 +32,7 @@ export function CardNews({title, count}) {
                 </Typography>
             </CardBody>
             <CardFooter className="pt-0 justify-end flex">
-                <Link to="/news" className="hover:font-semibold hover:underline">Selanjutnya</Link>
+                <Link to="/news/details" className="hover:font-semibold hover:underline">Selanjutnya</Link>
             </CardFooter>
         </Card>
         ))}

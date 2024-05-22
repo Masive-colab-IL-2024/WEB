@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import Cam from '../assets/cam.png';
 import Diagnosis from '../assets/diagnosis.png';
 import Obat from '../assets/obat.png';
-import { faUpload, faForward,faAngleRight} from '@fortawesome/free-solid-svg-icons'
+import { faUpload, faForward,faAngleRight, faCircleCheck, faHourglassEnd} from '@fortawesome/free-solid-svg-icons'
 export default function Scan() {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -70,7 +70,9 @@ export default function Scan() {
                     title: "Berhasil Scanning Gambar",
                     icon: "success",
                     confirmButtonColor: "#FF6868",
-                    confirmButtonText: "Selanjutnya"
+                    confirmButtonText: "Selanjutnya",
+                    allowOutsideClick: false, 
+                    allowEscapeKey: false,   
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location.href = '/result_scanning';
@@ -86,31 +88,31 @@ return (
         backgroundSize: 'cover' , backgroundPosition: 'center' }}>
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="z-10 flex flex-col ">
-            <div className="px-3 py-2  lg:p-11 justify-center flex rounded-xl">
+            <div className="px-3 py-2  lg:px-11 lg:py-0 justify-center flex rounded-xl">
                 <div className="mt-6 md:mt-10 border-2 border-white shadow-2xl text-white  bg-red-400 rounded-xl w-98 ">
                     <div className="py-5 px-4 lg:p-6 flex text-center justify-center">
                         <div className="flex text-center flex-col space-y-2">
-                             <img alt="" class="w-12 h-12 m-auto rounded ring-2 ring-offset-4 bg-white ring-violet-600 ring-offset-gray-100" src={Cam}/>
+                             <img alt="" className="w-12 h-12 m-auto rounded ring-2 ring-offset-4 bg-white ring-violet-600 ring-offset-gray-100" src={Cam}/>
                             <Typography className="text-xs lg:text-lg">Ambil Gambar</Typography> <br />
                         </div>
                         <div className="flex text-center p-3 font-extrabold flex-col space-y-2">
                             <Typography><FontAwesomeIcon className="text-2xl lg:text-3xl" icon={faAngleRight} /></Typography> 
                         </div>
                         <div className="flex text-center flex-col space-y-2">
-                            <img alt="" class="w-12 h-12 m-auto rounded ring-2 ring-offset-4 bg-white ring-violet-600 ring-offset-gray-100" src={Diagnosis}/>
+                            <img alt="" className="w-12 h-12 m-auto rounded ring-2 ring-offset-4 bg-white ring-violet-600 ring-offset-gray-100" src={Diagnosis}/>
                             <Typography className="text-xs lg:text-lg">Lihat Diagnosis</Typography> <br />
                         </div>
                         <div className="flex text-center p-3 font-extrabold flex-col space-y-2">
                             <Typography><FontAwesomeIcon className="text-2xl lg:text-3xl" icon={faAngleRight} /></Typography> 
                         </div>
                         <div className="flex text-center flex-col space-y-2">
-                            <img alt="" class="w-12 h-12 m-auto rounded ring-2 ring-offset-4 bg-white ring-violet-600 ring-offset-gray-100" src={Obat}/>
+                            <img alt="" className="w-12 h-12 m-auto rounded ring-2 ring-offset-4 bg-white ring-violet-600 ring-offset-gray-100" src={Obat}/>
                             <Typography className="text-xs lg:text-lg">Dapatkan Obat</Typography> <br />
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="px-3 py-2 lg:p-11 justify-center flex rounded-xl">
+            <div className="px-3 py-2 lg:px-11 lg:py-9 justify-center flex rounded-xl">
                 <div className="mt-6 md:mt-10 text-white bg-white shadow-md rounded-xl w-full lg:w-9/12">
                     <div className="p-6">
                         <p className="font-sans text-base md:text-lg lg:text-xl font-light leading-relaxed">
@@ -126,15 +128,23 @@ return (
                                             <input type="file" ref={fileInputRef} name="file_upload" className="hidden"
                                                 onChange={handleFileChange} />
                                             <Button onClick={handleButtonClick} className="bg-red-400">
-                                                <FontAwesomeIcon icon={faUpload} /> Unggah File
+                                                {isDragging ? (
+                                                    <span>
+                                                        <FontAwesomeIcon icon={faHourglassEnd} spinPulse /> Lepaskan gambar disini
+                                                    </span>
+                                                   ) : (
+                                                    <div>
+                                                        <FontAwesomeIcon icon={faUpload} /> Unggah File {file ? 'Lain' : ''}
+                                                    </div>
+                                                )} 
                                             </Button>
                                         </span>
                                     </div>
                                     <div className="text-center">
-                                        <span className="text-gray-600 font-semibold text-center">atau tarik file
+                                        <span className="text-gray-600 font-semibold text-center">atau tarik file {file ? 'lain' : ''}
                                         </span> <br />
                                         {file && (
-                                        <span className="text-green-600">( {file.name} )</span>
+                                        <span className="text-green-600 text-sm italic">berhasil unggah gambar <FontAwesomeIcon icon={faCircleCheck} /></span>
                                         )}
                                     </div>
                                 </span>
@@ -147,8 +157,8 @@ return (
                                 )}
                             </div>
                             {file && (
-                            <figure className="relative h-screen w-full p-5">
-                                <img className="h-full w-full rounded-xl object-cover object-center" src={preview}
+                            <div className="relative lg:h-screen w-full p-5">
+                                <img className="lg:h-full w-full rounded-xl object-cover object-center" src={preview}
                                     alt="nature image" />
                                 <figcaption
                                     className="absolute bottom-8 left-2/4 flex w-[calc(100%-4rem)] -translate-x-2/4 justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
@@ -158,7 +168,7 @@ return (
                                     <input type="file" className="hidden" ref={fileInputRef}
                                         onChange={handleReplaceImage} />
                                 </figcaption>
-                            </figure>
+                            </div>
                             )}
                         </div>
                         </p>

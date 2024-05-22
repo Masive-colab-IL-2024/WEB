@@ -1,6 +1,7 @@
 import Beranda from "./Pages/Beranda";
-import News from "./Pages/News";
+import DetailsNews from "./Pages/DetailsNews";
 import Scan from "./Pages/Scan";
+import News from "./Pages/News";
 import ResultScanning from "./Pages/ResultScanning";
 import Authentication from "./Pages/Authentication";
 import History from "./Pages/History";
@@ -12,6 +13,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Beranda />} />
       <Route path="/news" element={<News />} />
+      <Route path="/news/details" element={<DetailsNews />} />
       <Route path="/scanning_images" element={<Scan />} />
       <Route path="/result_scanning" element={<ResultScanning />} />
       <Route path="/authentication" element={<Authentication />} />

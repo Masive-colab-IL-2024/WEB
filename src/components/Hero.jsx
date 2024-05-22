@@ -3,6 +3,7 @@ import backgroundImage from '../assets/background.webp';
 import { Button } from '@material-tailwind/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faAnglesRight} from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
     return (
@@ -21,7 +22,7 @@ export default function Hero() {
                     </div>
                 </div>
                 <div className="flex justify-end mr-10 mb-4">
-                    <Button className="bg-red-500">Selanjutnya <FontAwesomeIcon icon={faAnglesRight} /></Button>
+                    <Link to={'/scanning_images'}><Button className="bg-red-500">Selanjutnya <FontAwesomeIcon icon={faAnglesRight} /></Button></Link>
                 </div>
             </div>
         </div>

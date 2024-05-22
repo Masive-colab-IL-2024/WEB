@@ -27,12 +27,12 @@ export default function Authentication() {
         {
           label: "Login",
           value: "login",
-          desc: `Masuk Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+          desc: `Masuk ke akun Anda dengan menggunakan informasi login yang telah Anda daftarkan sebelumnya.`,
         },
         {
           label: "Register",
           value: "register",
-          desc: `Register Lorem Ipsum is simply dummy text of the printing and typesetting industry..`,
+          desc: `Daftar untuk membuat akun baru dan bergabunglah dengan komunitas kami. `,
         },
      
         

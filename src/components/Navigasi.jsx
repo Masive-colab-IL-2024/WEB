@@ -45,12 +45,12 @@ const Navigasi = () => {
                     )}
                 </IconButton>
                 <div className={`lg:flex hidden space-x-4 items-center`}>
-                    <Link to="/" className="text-black  hover:text-[#F84E45] active:text-[#F84E45]">Beranda</Link>
-                    <Link to="/news" className="text-black hover:text-[#F84E45] active:text-[#F84E45]">Berita</Link>
-                    <Link to="/scanning_images" className="text-black hover:text-[#F84E45] active:text-[#F84E45]">Scanning</Link>
-                    <Link to="/history" className="text-black hover:text-[#F84E45] active:text-[#F84E45]">Riwayat</Link>
+                    <Link to="/" className="text-black font-semibold hover:underline  hover:text-[#F84E45] active:text-[#F84E45]">Beranda</Link>
+                    <Link to="/news" className="text-black  font-semibold hover:underline hover:text-[#F84E45] active:text-[#F84E45]">Berita</Link>
+                    <Link to="/scanning_images" className="text-black font-semibold hover:underline hover:text-[#F84E45] active:text-[#F84E45]">Scanning</Link>
+                    <Link to="/history" className="text-black font-semibold hover:underline hover:text-[#F84E45] active:text-[#F84E45]">Riwayat</Link>
                     <Link to="/authentication" className="active:text-[#F84E45]">
-                        <Button className=" bg-[#F84E45]">
+                        <Button className=" font-semibold hover:underline bg-[#F84E45]">
                                 Masuk
                         </Button>
                     </Link>
@@ -62,7 +62,7 @@ const Navigasi = () => {
                     <Link to="/news" className="block text-black hover:text-[#F84E45] active:text-[#F84E45]">Berita</Link>
                     <Link to="/scanning_images" className="block text-black hover:text-[#F84E45] active:text-[#F84E45]">Scanning</Link>
                     <Link to="/history" className="block text-black hover:text-[#F84E45] active:text-[#F84E45]">Riwayat</Link>
-                    <Button className="w-full  active:text-[#F84E45]">
+                    <Button className="w-full bg-[#F84E45]">
                         <Link to="/login" className="block w-full  active:text-[#F84E45]">
                             Masuk
                         </Link>
