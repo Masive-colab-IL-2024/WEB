@@ -1,5 +1,7 @@
 import LayoutPage from "../../layout/LayoutPage"
-import React, { useState } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
+import showAlert from "../components/showAlert";
 import backgroundImage from '../assets/background.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -17,8 +19,77 @@ import {
     Tab,
     TabPanel,
   } from "@material-tailwind/react";
+  
+import Cookies from 'js-cookie';
+
 export default function Authentication() {
     const [showPassword, setShowPassword] = useState(false);
+    const [formData, setFormData] = useState({
+        email: '',
+        name: '',
+        password: ''
+    });
+
+    const [formLogin, setLogin] = useState({
+        email: '',
+        password: ''
+    });
+    
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleChangeLogin = (e) => {
+        setLogin({
+            ...formLogin,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleRegister = async () => {
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_ENPOINT}/register`, formData);
+            if (response.status === 200) {
+                showAlert('success', response.data.pesan); 
+                Cookies.set('accessToken', response.data.accessToken);
+                Cookies.set('name', response.data.name);
+                Cookies.set('email', response.data.email);
+                setTimeout(() => {
+                    window.location.href = '/scanning_images';
+                }, 2000);
+            } else {
+                showAlert('error', response.data.pesan); 
+            }
+            
+        } catch (error) {
+            showAlert('error', error.response.data.pesan); 
+        }
+    };
+
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_ENPOINT}/login`, formLogin);
+            if (response.status === 200) {
+                showAlert('success', response.data.pesan); 
+                Cookies.set('accessToken', response.data.data.accessToken);
+                Cookies.set('refreshToken', response.data.data.refreshToken);
+                Cookies.set('name', response.data.data.name);
+                Cookies.set('email', response.data.data.email);
+                setTimeout(() => {
+                    window.location.href = '/scanning_images';
+                }, 2000);
+            } else {
+                showAlert('error', response.data.pesan); 
+            }
+        } catch (error) {
+            showAlert('error', error.response.data.pesan); 
+        }
+    };
+    
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -96,15 +167,17 @@ export default function Authentication() {
                                                         color="blue-gray"
                                                         className="mb-2 font-medium"
                                                     >
-                                                        Username
+                                                        Email
                                                     </Typography>
                                                     <Input
                                                         type="text"
+                                                        name="email"
                                                         placeholder="Enter your Username"
                                                         className=" !border-t-blue-gray-200 rounded-full focus:!border-t-gray-900"
                                                         labelProps={{
                                                         className: "before:content-none after:content-none",
-                                                        }}
+                                                    }}
+                                                     onChange={handleChangeLogin}
                                                     />
                                                 </div>
                                                 <div className="relative">
@@ -117,10 +190,12 @@ export default function Authentication() {
                                                     </Typography>
                                                     <Input
                                                         type={showPassword ? "text" : "password"}
+                                                        name="password"
                                                         className="!border-t-blue-gray-200 rounded-full focus:!border-t-gray-900"
                                                         labelProps={{
                                                             className: "before:content-none after:content-none",
                                                         }}
+                                                      onChange={handleChangeLogin}
                                                     />
                                                     <FontAwesomeIcon
                                                         icon={showPassword ? faEyeSlash : faEye}
@@ -132,7 +207,7 @@ export default function Authentication() {
                                                     <Checkbox color="red" label="Ingat Saya" />
                                                 </div>
                                                 <div className="flex ml-auto">
-                                                    <Button className="bg-red-400">Login</Button>
+                                                    <Button onClick={handleLogin} className="bg-red-400">Login</Button>
                                                 </div>
                                             </form>  
                                          :
@@ -147,11 +222,13 @@ export default function Authentication() {
                                                     </Typography>
                                                     <Input
                                                         type="email"
+                                                        name="email" 
                                                         placeholder="Enter your Email Address"
                                                         className=" !border-t-blue-gray-200 rounded-full focus:!border-t-gray-900"
                                                         labelProps={{
                                                         className: "before:content-none after:content-none",
                                                         }}
+                                                        onChange={handleChange}
                                                     />
                                                 </div>
                                                 <div>
@@ -164,11 +241,13 @@ export default function Authentication() {
                                                     </Typography>
                                                     <Input
                                                         type="text"
+                                                        name="name" 
                                                         placeholder="Enter your User name"
                                                         className=" !border-t-blue-gray-200 rounded-full focus:!border-t-gray-900"
                                                         labelProps={{
                                                         className: "before:content-none after:content-none",
                                                         }}
+                                                        onChange={handleChange}
                                                     />
                                                 </div>
                                                 <div className="relative">
@@ -181,10 +260,12 @@ export default function Authentication() {
                                                     </Typography>
                                                     <Input
                                                         type={showPassword ? "text" : "password"}
+                                                        name="password" 
                                                         className="!border-t-blue-gray-200 rounded-full focus:!border-t-gray-900"
                                                         labelProps={{
                                                             className: "before:content-none after:content-none",
                                                         }}
+                                                        onChange={handleChange}
                                                     />
                                                     <FontAwesomeIcon
                                                         icon={showPassword ? faEyeSlash : faEye}
@@ -193,7 +274,7 @@ export default function Authentication() {
                                                     />
                                                 </div>
                                                 <div className="flex ml-auto">
-                                                    <Button className="bg-red-400">Daftar</Button>
+                                                    <Button className="bg-red-400"  onClick={handleRegister}>Daftar</Button>
                                                 </div>
                                             </form>  
                                         } 

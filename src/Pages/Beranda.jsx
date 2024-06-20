@@ -6,7 +6,7 @@ export default function Beranda() {
     return (
         <LayoutPage>
             <Hero />
-                <CardNews title={'Berita'} count={6} />
+                <CardNews pageRillis={'Berita '} count={6} />
             <About />
         </LayoutPage>
     )

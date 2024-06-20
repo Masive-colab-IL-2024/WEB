@@ -1,14 +1,16 @@
 import LayoutPage from "../../layout/LayoutPage";
-import React, { useState, useRef } from 'react';
-import { Typography, Button, Tooltip } from "@material-tailwind/react";
+import { useState, useRef } from 'react';
+import { Typography, Button } from "@material-tailwind/react";
 import backgroundImage from '../assets/background.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Swal from 'sweetalert2'
+import axios from 'axios';
 import Cam from '../assets/cam.png';
 import Diagnosis from '../assets/diagnosis.png';
 import Obat from '../assets/obat.png';
 import { faUpload, faForward,faAngleRight, faCircleCheck, faHourglassEnd} from '@fortawesome/free-solid-svg-icons'
 export default function Scan() {
+
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -47,13 +49,12 @@ export default function Scan() {
         setPreview(URL.createObjectURL(selectedFile));
     };
 
-    const handleResultScanning = () => {
+    const handleResultScanning = async () => {
         let timerInterval;
-        Swal.fire({
+        let loadingSwal = Swal.fire({
             title: "Sedang Proses",
-            timer: 2600,
-            allowOutsideClick: false, 
-            allowEscapeKey: false,    
+            allowOutsideClick: false,
+            allowEscapeKey: false,
             didOpen: () => {
                 Swal.showLoading();
                 const timer = Swal.getPopup().querySelector("b");
@@ -64,23 +65,58 @@ export default function Scan() {
             willClose: () => {
                 clearInterval(timerInterval);
             }
-        }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.timer) {
-                Swal.fire({
-                    title: "Berhasil Scanning Gambar",
-                    icon: "success",
-                    confirmButtonColor: "#FF6868",
-                    confirmButtonText: "Selanjutnya",
-                    allowOutsideClick: false, 
-                    allowEscapeKey: false,   
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/result_scanning';
-                    }
-                });
-            }
         });
-    }
+    
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+    
+            const response = await axios.post(import.meta.env.VITE_PREDIKSI, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+    
+            const formHistory = new FormData();
+            formHistory.append('predicted_class', response.data.data.predicted_class);
+            formHistory.append('confidence', response.data.data.confidence);
+    
+            console.log(response);
+            const historyResponse = await axios.post(`${import.meta.env.VITE_ENPOINT}/get_history`, formHistory, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            loadingSwal.close();
+    
+            Swal.fire({
+                title: "Berhasil Scanning Gambar",
+                icon: "success",
+                confirmButtonColor: "#FF6868",
+                confirmButtonText: "Selanjutnya",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/result_scanning/${historyResponse.data.slug}`;
+                }
+            });
+    
+        } catch (error) {
+            console.error('Error sending file to API:', error);
+            Swal.fire({
+                title: "Error",
+                text: "Gagal menditeksi gambar",
+                icon: "error",
+                confirmButtonColor: "#FF6868",
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            });
+        }
+    };
+    
     
 return (
 <LayoutPage>
