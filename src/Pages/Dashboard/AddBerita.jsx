@@ -32,7 +32,7 @@ export default function AddBerita() {
         formData.append('content', content);
 
         try {
-            const response = await axios.post('http://localhost:5000/create_news', formData, {
+            const response = await axios.post(`${import.meta.env.VITE_ENPOINT}/create_news/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }

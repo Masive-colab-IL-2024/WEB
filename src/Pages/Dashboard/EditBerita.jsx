@@ -21,7 +21,7 @@ export default function EditBerita() {
 
     const fetchNewsById = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:5000/get_news/${id}`);
+            const response = await axios.get(`${import.meta.env.VITE_ENPOINT}/get_news/${id}`);
             const { data } = response.data;
             setTitle(data.title);
             setCategory(data.categories);
@@ -54,7 +54,7 @@ export default function EditBerita() {
         }
 
         try {
-            const response = await axios.post(`http://localhost:5000/get_news/update/${id}`, formData, {
+            const response = await axios.post(`${import.meta.env.VITE_ENPOINT}/get_news/update/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }

@@ -30,7 +30,7 @@ export default function Berita() {
 
     const fetchNews = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/get_news/');
+            const response = await axios.get(`${import.meta.env.VITE_ENPOINT}/get_news/`);
             setBerita(response.data.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -53,7 +53,7 @@ export default function Berita() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const response = await axios.post(`http://localhost:5000/get_news/delete/${row.slug}`);
+                    const response = await axios.post(`${import.meta.env.VITE_ENPOINT}/get_news/delete/${row.slug}`);
                     if (response.status === 200) {
                         Swal.fire(
                             'Berhasil!',
